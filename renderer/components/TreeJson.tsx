@@ -18,23 +18,28 @@ const renderTreeNodes = (json_object) => {
 }
 
 const renderTree = (nodes) => {
-    return nodes.map((node) => (
-        <TreeItem key={node.key} nodeId={node.key} label={node.key}>
-            { Array.isArray(node.children) ? renderTree(node.children) : node.name}
-        </TreeItem>
-    ));
+    return nodes.map((node) => {
+        if (node.children) {
+            return (
+                <TreeItem key={node.key} nodeId={node.key} label={node.key}>
+                    {renderTree(node.children)}
+                </TreeItem>
+            );
+        }
+        else {
+            return <TreeItem key={node.key} nodeId={node.key} label={node.key + ': ' + node.name} />;
+        }
+});
 }
 
 export default function JSONTree(props) {
-    let json = props.json;
+    const json = props.json;
+    const { expanded, selected} = props.props;
+    const { handleToggle, handleSelect } = props.clicks;
+
     if (typeof json !== 'object') {
         return null;
     }
-    let tree_items = [];
-    for (let key in json) {
-        tree_items.push(<TreeItem nodeId={key} label={key} />);
-    }
-    console.log(tree_items);
     console.log(renderTreeNodes(json));
     console.log(Object.keys(json));
     console.log(renderTree(renderTreeNodes(json)));
@@ -43,14 +48,13 @@ export default function JSONTree(props) {
             defaultCollapseIcon={<ExpandMoreIcon />}
             defaultExpandIcon={<ChevronRightIcon />}
             defaultEndIcon={<div style={{ width: 24 }} />}
+            expanded={expanded}
+            selected={selected}
+            onNodeToggle={handleToggle}
+            onNodeSelect={handleSelect}
+            multiSelect
         >
             { renderTree(renderTreeNodes(json))}
-
-            <TreeItem nodeId="1" label="Applications">
-                <TreeItem nodeId="2" label="Calendar" />
-                <TreeItem nodeId="3" label="Chrome" />
-                <TreeItem nodeId="4" label="Webstorm" />
-            </TreeItem>
         </TreeView>
     );
 }
