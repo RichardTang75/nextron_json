@@ -1,19 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogActions from '@mui/material/DialogActions';
 import Typography from '@mui/material/Typography';
-import Link from '../components/Link';
 import FileInput from '../components/FileInput';
 import TreeJson from '../components/TreeJson';
 import { styled, Stack, Box } from '@mui/material';
-import { TreeItem, TreeView } from '@mui/lab';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 const fs = require('fs');
 
 const Root = styled('div')(({ theme }) => {
